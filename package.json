@@ -13,8 +13,6 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
-    "fetch": "^1.1.0",
-    "jquery": "^3.2.1",
     "xmlhttprequest": "^1.8.0"
   }
 }
