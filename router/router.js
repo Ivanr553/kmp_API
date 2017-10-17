@@ -11,9 +11,10 @@ router.post('/script', (req, res) => {
 
   console.log(req.body)
 
-  res.send(req.body)
+  res.send({message: Script.getHtmlSource(Script.parseReq(req.body))})
 
-  // Script.getHtmlSource(req.body)
+  // res.send({message: 'Request received'})
+
 
 })
 
