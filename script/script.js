@@ -4,10 +4,10 @@ const Script = {
 
   parseReq: (req) => {
 
-    let subject = req.subject
-    let season = req.season
-    let crn = req.crn
-    let year = req.year
+    let subject = req.request.subject
+    let season = req.request.season
+    let crn = req.request.crn
+    let year = req.request.year
 
     //Formatting season
     switch(season) {
@@ -38,7 +38,7 @@ const Script = {
     let text = req.text
     console.log(text)
 
-    let info = info.slice((text.lastIndexOf('default3')), 11)
+    let info = text.slice((text.lastIndexOf('default3')), 11)
 
     return info
 
