@@ -24,6 +24,8 @@ const Script = {
 
     let url = 'https://ssb.vcccd.edu/prod/pw_pub_sched.p_course_popup?vsub=' + subject + '&vterm=' + year + season + '&vcrn=' + crn
 
+    console.log(url)
+
     return url
   },
 
