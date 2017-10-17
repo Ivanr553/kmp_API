@@ -12,13 +12,13 @@ const Script = {
     //Formatting season
     switch(season) {
       case 'Fall':
-        season = 07
+        season = '07'
         break
       case 'Spring':
-        season = 03
+        season = '03'
         break
       case 'Summer':
-        season = 05
+        season = '05'
         break
     }
 
