@@ -8,13 +8,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const script = require('./script/script')
+const router = require('./router/router')
 
 app.use('/', router)
 
 module.exports = app
-
-// var req = new XMLHttpRequest();
-// req.open('GET', 'http://www.mydomain.com/', false);
-// req.send(null);
-// console.log(req.responseText)

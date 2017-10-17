@@ -1,9 +1,24 @@
-const express = require('express')
-const router = express.router()
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
-router.post('/', (req, res) => {
-  console.log('received')
+const Script = {
 
-  res.send({message: 'Request received'})
-})
+  getHtmlSource: (req) => {
+
+
+
+    // var req = new XMLHttpRequest();
+    // req.open('GET', 'http://www.mydomain.com/', false);
+    // req.send(null);
+
+  }
+
+}
+
+module.exports = Script
+
+// notes
+//   year: number
+//   season:
+//     spring: 03
+//     summer: 05
+//     fall: 07
