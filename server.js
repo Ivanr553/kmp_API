@@ -2,14 +2,13 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 //MiddleWare
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const router = require('./router/router')
+const script = require('./script/script')
 
 app.use('/', router)
 
