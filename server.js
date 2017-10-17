@@ -12,9 +12,7 @@ const script = require('./script/script')
 
 app.use('/', router)
 
-app.listen(8080, function() {
-  console.log('connected on port', 8080)
-})
+module.exports = app
 
 // var req = new XMLHttpRequest();
 // req.open('GET', 'http://www.mydomain.com/', false);
