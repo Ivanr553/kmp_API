@@ -35,7 +35,11 @@ const Script = {
     req.open('GET', url, false);
     req.send(null);
 
-    return req
+    let text = req.text()
+
+    let info = info.slice((text.lastIndexOf('default3')), 11)
+
+    return info
 
   }
 
