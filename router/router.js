@@ -7,12 +7,6 @@ const Email = require('../services/emailService/emailService')
 const SMS = require('../services/textService/textService')
 const Script = require('../services/runService/runService')
 
-router.get('/', (req, res) => {
-
-  res.send('Welcome to the keep me posted API!')
-
-})
-
 router.post('/entry', async (req, res) => {
 
     let response = {
