@@ -1,9 +1,9 @@
 require('dotenv').config()
 var AWS = require('aws-sdk')
+AWS.config.setPromisesDependency(null);
 
 const SMS = {
 
-  //Accepts number and college class as strings
   send: async function(number, collegeClass) {
 
     //Initiating new sms
@@ -16,13 +16,20 @@ const SMS = {
       PhoneNumber: '+1' + number
     }
 
-    try {
+    // //Sending message
+    // sns.publish(params, function(err, data) {
+    //   if (err) console.log(err, err.stack)
+    //   else return data
+    // })
 
-      let snsResponse = await sns.publish(params)
+    try {
+      let snsResponse = await sns.publish(params).promise()
       return snsResponse
     } catch (err) {
-      console.log(err)
+      return err
     }
+
+
 
   }
 
