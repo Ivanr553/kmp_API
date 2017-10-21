@@ -3,7 +3,8 @@ var AWS = require('aws-sdk')
 
 const SMS = {
 
-  send: (number, collegeClass) => {
+  //Accepts number and college class as strings
+  send: async function(number, collegeClass) {
 
     //Initiating new sms
     var sns = new AWS.SNS()
@@ -15,11 +16,13 @@ const SMS = {
       PhoneNumber: '+1' + number
     }
 
-    //Sending message
-    sns.publish(params, function(err, data) {
-      if (err) console.log(err, err.stack)
-      else console.log(data)
-    })
+    try {
+
+      let snsResopnse = await sns.publish(params)
+      return snsResponse
+    } catch (err) {
+      console.log(err)
+    }
 
   }
 

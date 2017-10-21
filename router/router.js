@@ -55,6 +55,9 @@ router.post('/entry', async (req, res) => {
 
 router.get('/run', async (req, res) => {
 
+  let smsResponse = await SMS.send('8056241556', 'Java')
+  console.log(smsResponse)
+
   res.send('running')
 
 })
