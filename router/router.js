@@ -16,10 +16,10 @@ router.post('/entry', async (req, res) => {
     }
 
     //Assigning variables from request
-    let newClassID = req.body.newEntry.newClassID
+    let newClassID = req.body.newClassID
 
     //Finding database entries asynchronously
-    let foundPhone = await DB.findPhone(req.body.newEntry.phone)
+    let foundPhone = await DB.findUser(req.body.phone)
     let ClassList = await DB.findClassList()
 
     //Handling phoneList database entry

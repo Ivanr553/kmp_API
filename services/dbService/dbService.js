@@ -19,7 +19,7 @@ const DB = {
   saveNewUser: async function(req) {
 
     //Assigning the body of the request received into a variable
-    let request = req.body.newEntry
+    let request = req.body
 
     //Creating a new Request Document using the received request
     let newPhone = new Phone({
