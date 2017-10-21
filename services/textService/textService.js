@@ -18,7 +18,7 @@ const SMS = {
 
     try {
 
-      let snsResopnse = await sns.publish(params)
+      let snsResponse = await sns.publish(params)
       return snsResponse
     } catch (err) {
       console.log(err)
