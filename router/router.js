@@ -20,7 +20,9 @@ router.post('/entry', async (req, res) => {
 
     //Finding database entries asynchronously
     let foundPhone = await DB.findUser(req.body.phone)
+    console.log(foundPhone)
     let ClassList = await DB.findClassList()
+    console.log(ClassList)
 
     //Handling phoneList database entry
     if(foundPhone) {
@@ -30,12 +32,14 @@ router.post('/entry', async (req, res) => {
 
       } else {
         let saveResponse = await DB.updateUser(newClassID, foundPhone)
+        console.log(saveResponse)
         response.phoneList.status = 'Class link added'
         response.phoneList.response = saveResponse
       }
 
     } else {
       let saveResponse = await DB.saveNewUser(req)
+      console.log(saveResponse)
       response.phoneList.status = 'New phone and class added'
       response.phoneList.response = saveResponse
     }
@@ -45,18 +49,17 @@ router.post('/entry', async (req, res) => {
       response.classList.status = 'Contains match'
     } else {
       let saveResponse = await DB.updateClassList(newClassID, ClassList)
+      console.log(saveResponse)
       response.classList.status = 'No match'
     }
 
+  console.log(response)
   res.send(response)
 
 })
 
 
 router.get('/run', async (req, res) => {
-
-  let smsResponse = await SMS.send('8056241556', 'Java')
-  console.log(smsResponse)
 
   res.send('running')
 

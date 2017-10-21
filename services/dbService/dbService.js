@@ -11,7 +11,7 @@ const DB = {
       let found = await Phone.findOne({phone: queryPhone})
       return found
     } catch (err) {
-      console.log(err)
+      return (err)
     }
 
   },
@@ -32,7 +32,7 @@ const DB = {
       let phoneResponse = await newPhone.save()
       return phoneResponse
     } catch (err) {
-      console.log(err)
+      return (err)
     }
 
   },
@@ -46,7 +46,7 @@ const DB = {
         let saved = await foundPhone.save()
         return saved
       } catch (err) {
-        console.log(err)
+        return (err)
       }
   },
 
@@ -55,7 +55,7 @@ const DB = {
       let classList = await ClassList.findById('59ea75feb5a3b9b78ca38a7b')
       return classList
     } catch (err) {
-      console.log(err)
+      return (err)
     }
   },
 
@@ -68,7 +68,7 @@ const DB = {
       let saveResponse = await classList.save()
       return saveResponse
     } catch (err) {
-      console.log(err)
+      return (err)
     }
   },
 

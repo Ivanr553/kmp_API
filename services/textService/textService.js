@@ -16,21 +16,12 @@ const SMS = {
       PhoneNumber: '+1' + number
     }
 
-    // //Sending message
-    // sns.publish(params, function(err, data) {
-    //   if (err) console.log(err, err.stack)
-    //   else return data
-    // })
-
     try {
       let snsResponse = await sns.publish(params).promise()
       return snsResponse
     } catch (err) {
       return err
     }
-
-
-
   }
 
 }
