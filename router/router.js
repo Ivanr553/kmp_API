@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 })
 
-router.post('/entry', async (req, res) => {
+router.get('/entry', async (req, res) => {
 
     let response = {
       phoneList: {},
@@ -35,13 +35,13 @@ router.post('/entry', async (req, res) => {
         response.phoneList.status = 'Class already linked'
 
       } else {
-        let saveResponse = await DB.updatePhone(newClassID, foundPhone)
+        let saveResponse = await DB.updateUser(newClassID, foundPhone)
         response.phoneList.status = 'Class link added'
         response.phoneList.response = saveResponse
       }
 
     } else {
-      let saveResponse = await DB.saveNewPhone(req)
+      let saveResponse = await DB.saveNewUser(req)
       response.phoneList.status = 'New phone and class added'
       response.phoneList.response = saveResponse
     }

@@ -4,7 +4,7 @@ const Phone = require('../../models/phoneList')
 
 const DB = {
 
-  findPhone: async function(queryPhone) {
+  findUser: async function(queryPhone) {
     try{
 
       // let found = await Phone.findPhone(req.body.newEntry.phone)
@@ -16,7 +16,7 @@ const DB = {
 
   },
 
-  saveNewPhone: async function(req) {
+  saveNewUser: async function(req) {
 
     //Assigning the body of the request received into a variable
     let request = req.body.newEntry
@@ -37,7 +37,7 @@ const DB = {
 
   },
 
-  updatePhone: async function(newClassID, foundPhone) {
+  updateUser: async function(newClassID, foundPhone) {
       try {
 
         //Creating new array with newClassID
