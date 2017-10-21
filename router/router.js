@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 })
 
-router.get('/entry', async (req, res) => {
+router.post('/entry', async (req, res) => {
 
     let response = {
       phoneList: {},
