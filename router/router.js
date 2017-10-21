@@ -1,20 +1,69 @@
 const express = require('express')
 const router = express.Router()
 
-const Script = require('../script/script')
+const DB = require('../services/dbService/dbService')
+const Source = require('../services/sourceService/sourceService')
+const Email = require('../services/emailService/emailService')
+const SMS = require('../services/textService/textService')
+const Script = require('../services/runService/runService')
+
+let response = {}
 
 router.get('/', (req, res) => {
-  res.send('App is live')
+
+  res.send({response: 'Welcome to the keep me posted API!'})
+
 })
 
-router.post('/script', (req, res) => {
+router.post('/entry', async (req, res) => {
 
-  console.log(req.body)
+    let response = {
+      phoneList: {},
+      classList: {},
+      status: 'OK'
+    }
 
-  res.send({message: Script.getHtmlSource(Script.parseReq(req.body))})
+    //Assigning variables from request
+    let newClassID = req.body.newEntry.newClassID
 
-  // res.send({message: 'Request received'})
+    //Finding database entries asynchronously
+    let foundPhone = await DB.findPhone(req.body.newEntry.phone)
+    let ClassList = await DB.findClassList()
 
+    //Handling phoneList database entry
+    if(foundPhone) {
+
+      if(DB.listContainsMatch(newClassID, foundPhone)) {
+        response.phoneList.status = 'Class already linked'
+
+      } else {
+        let saveResponse = await DB.updatePhone(newClassID, foundPhone)
+        response.phoneList.status = 'Class link added'
+        response.phoneList.response = saveResponse
+      }
+
+    } else {
+      let saveResponse = await DB.saveNewPhone(req)
+      response.phoneList.status = 'New phone and class added'
+      response.phoneList.response = saveResponse
+    }
+
+    //Handling ClassList database entry
+    if(DB.listContainsMatch(newClassID, ClassList)) {
+      response.classList.status = 'Contains match'
+    } else {
+      let saveResponse = await DB.updateClassList(newClassID, ClassList)
+      response.classList.status = 'No match'
+    }
+
+  res.send(response)
+
+})
+
+
+router.get('/run', async (req, res) => {
+
+  res.send('running')
 
 })
 
