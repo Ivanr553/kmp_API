@@ -7,11 +7,9 @@ const Email = require('../services/emailService/emailService')
 const SMS = require('../services/textService/textService')
 const Script = require('../services/runService/runService')
 
-let response = {}
-
 router.get('/', (req, res) => {
 
-  res.send({response: 'Welcome to the keep me posted API!'})
+  res.send('Welcome to the keep me posted API!')
 
 })
 
