@@ -6,7 +6,7 @@ let Schema = mongoose.Schema;
 let PhoneSchema = new Schema(
   {
     phone: {
-      type: Number,
+      type: String,
       required: true
     },
     classIDs: {

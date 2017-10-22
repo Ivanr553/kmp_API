@@ -3,7 +3,7 @@ const aws = require('aws-sdk')
 
 const Email = {
 
-  send: () => {
+  send: async function(email) {
 
     const ses = new aws.SES()
 
@@ -27,10 +27,38 @@ const Email = {
       Source: 'ivanr553@gmail.com'
     }
 
-    ses.sendEmail(params, (err, data) => {
-      if(err) console.log(err, err.stack)
-      else console.log(data)
-    })
+    let emailResponse = await ses.sendEmail(params)
+
+  },
+
+  sendNewUser: async function(email) {
+
+    const params = {
+      Destination: {
+        ToAddresses: [email]
+      },
+      Message: {
+        Body: {
+          Text: {
+            Charset: 'UTF-8',
+            Data: 'Welcome to Keep Me Posted!'
+          }
+        },
+        Subject: {
+          Charset: 'UTF-8',
+          Data: 'Welcome from Keep Me Posted'
+        }
+      },
+      ReturnPath: 'keepMePostedEmail@gmail.com',
+      Source: 'keepMePosted@gmail.com'
+    }
+
+    try {
+      let emailResponse = await ses.sendEmail(params).promise()
+      return emailResponse
+    } catch (err) {
+      return err
+    }
 
   }
 
