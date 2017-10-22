@@ -4,7 +4,8 @@
   "description": "",
   "main": "node bin/www",
   "scripts": {
-    "dev": "nodemon bin/www"
+    "dev": "nodemon bin/www",
+    "start": "node bin/www"
   },
   "author": "Ivan",
   "license": "MIT",
