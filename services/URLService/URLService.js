@@ -2,50 +2,65 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 const URL = {
 
-  //Accepts the classID as a string as its argument
-  construct: (id) => {
+  //Accepts the classList database entry as its argument and returns a formatted classList (for use in runService)
+  construct: (classList) => {
 
-    //Extracting values from url concatenation
-    let subject = id.slice(0, id.indexOf('.'))
-    id = id.slice(id.indexOf('.')+1)
+    //Constructing new class list
+    let newClassList = []
 
-    let year = id.slice(0, id.indexOf('.'))
-    id = id.slice(id.indexOf('.')+1)
+    //Formatting the new classList entry
+    classList.classIDs.forEach( (entry) => {
+      newClassList.push(
+        {
+          classID: entry,
+          url: null,
+          phones: []
+        }
+      )
+    })
 
-    let season = id.slice(0, id.indexOf('.'))
-    id = id.slice(id.indexOf('.')+1)
+    //Constructing url
+    newClassList.forEach( (entry) => {
 
-    let crn = id.slice(0, id.indexOf('.'))
+      let id = entry.classID
 
-    //Formatting season to fit url parameters
-    switch(season) {
-      case 'Fall':
-        season = '07'
-        break
-      case 'Spring':
-        season = '03'
-        break
-      case 'Summer':
-        season = '05'
-        break
-    }
+      //Extracting values from url concatenation
+      let subject = id.slice(0, id.indexOf('.'))
+      id = id.slice(id.indexOf('.')+1)
 
-    //Constructing url with parameters
-    let url = 'https://ssb.vcccd.edu/prod/pw_pub_sched.p_course_popup?vsub='
-      + subject
-      + '&vterm='
-      + year
-      + season
-      + '&vcrn='
-      + crn
+      let year = id.slice(0, id.indexOf('.'))
+      id = id.slice(id.indexOf('.')+1)
 
-    return url
+      let season = id.slice(0, id.indexOf('.'))
+      id = id.slice(id.indexOf('.')+1)
+
+      let crn = id.slice(0, id.indexOf('.'))
+
+      //Formatting season to fit url parameters
+      switch(season) {
+        case 'Fall':
+          season = '07'
+          break
+        case 'Spring':
+          season = '03'
+          break
+        case 'Summer':
+          season = '05'
+          break
+      }
+
+      url = `https://ssb.vcccd.edu/prod/pw_pub_sched.p_course_popup?vsub=${subject}&vterm=${year + season}&vcrn=${crn}`
+
+      //Adding url to newClassList entry
+      entry.url = url
+    })
+
+    return newClassList
   },
 
+// ============= RETURNING TRUE EACH TIME FOR DEVELOPMENT PURPOSES ===================
   //Returns true or false depending on waitlist availability
-  checkWaitlist: (list) => {
-
-    let url = list[0]
+  checkWaitlist: (url) => {
 
     //Making request for page to parse
     let req = new XMLHttpRequest()
@@ -66,28 +81,8 @@ const URL = {
       waitlistBoolean = waitlistSpots >= '0' ? true : false
     }
 
-    //Constructing result
-    let results = {
-        listItem: list[0],
-        spots: waitlistSpots,
-        isAvailable: waitlistBoolean
-    }
+    return true
 
-    return results
-
-  },
-
-  //Formats the database ClassIDs to proper urls to be used by the URL.checkWaitlist method
-  format: async function() {
-
-    let list = await DB.findClassList()
-    list = list.classIDs
-
-    list = list.map( (id) => {
-      return URL.constructURL(id)
-    })
-
-    return(list)
   }
 
 }

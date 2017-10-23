@@ -7,19 +7,128 @@ const ClassList = require('../../models/classList')
 const Script = {
 
   //Formats the database ClassIDs to proper urls to be used by the URL.checkWaitlist method
-  formatURLs: async function() {
+  findAvailableClasses: async function() {
 
-    let list = await DB.findClassList()
-    list = list.classIDs
+    let classList = await DB.findClassList()
 
-    list = list.map( (id) => {
-      return URL.constructURL(id)
-    })
+    classList = URL.construct(classList)
 
-    return(list)
+    let availableClassList = []
+
+    for(let entry of classList) {
+      const result = await URL.checkWaitlist(entry.url)
+      if(result) {
+        availableClassList.push(entry)
+      }
+    }
+
+    return availableClassList
+
   },
 
-  run: async function() {
+  //Accepts formatted classList (from findAvailableClasses) andreturns an array of phone numbers as strings
+  findAvailablePhones: async function(availableClassList) {
+
+    let availablePhones = []
+
+    //Iterating through each entry in the availableClassList array
+    for (let item of availableClassList) {
+
+      let classID = item.classID
+
+      //Checking database for each user that has the available classes and extracting phones
+      try{
+        let users = await DB.findUsersByClass(classID)
+        for(let user of users) {
+          if(availablePhones.indexOf(user.phone) < 0) {
+            availablePhones.push(user.phone)
+          }
+        }
+      } catch(err) {
+        throw err
+      }
+
+    }
+
+    return availablePhones
+
+  },
+
+  //Handles the request from the website for new data entries
+  //Takes the request as the argument and returns a formatted response for the website
+  runNewEntry: async function(req) {
+
+    //Constructing response object
+    let response = {
+      phoneList: {},
+      classList: {},
+      // sms: {},
+      responseStatus: 'OK'
+    }
+
+    //Assigning variables from request
+    let newClassID = req.body.newClassID
+
+    //Finding database entries asynchronously
+    let foundPhone = await DB.findUserByPhone(req.body.phone)
+    let ClassList = await DB.findClassList()
+
+    //Handling phoneList database entry
+    if(foundPhone) {
+
+      if(DB.listContainsMatch(newClassID, foundPhone)) {
+        response.phoneList.status = 'Class already linked'
+
+      } else {
+        let saveResponse = await DB.updateUser(newClassID, foundPhone)
+
+        //Error Handling
+        if(saveResponse.name === 'ValidationError') {
+          response.phoneList.status = 'Error updating phone'
+          response.phoneList.response = saveResponse
+          resposne.responseStatus = 'ERR'
+        } else {
+          response.phoneList.status = 'Class link added'
+          response.phoneList.response = saveResponse
+        }
+      }
+
+    } else {
+      let saveResponse = await DB.saveNewUser(req)
+
+      //Error Handling
+      if(saveResponse.name === 'ValidationError') {
+        response.phoneList.status = 'Error with new phone entry'
+        response.phoneList.response = saveResponse
+        response.responseStatus = 'ERR'
+      } else {
+        response.phoneList.status = 'New phone and class added'
+        response.phoneList.response = saveResponse
+      }
+
+      // let smsResponse = await SMS.sendNewUser(req.body.phone)
+      // response.sms.status = 'Sent'
+      // response.sms.response = smsResponse
+    }
+
+    //Handling ClassList database entry
+    if(DB.listContainsMatch(newClassID, ClassList)) {
+      response.classList.status = 'Contains match'
+    } else {
+      let saveResponse = await DB.updateClassList(newClassID, ClassList)
+
+      //Error Handling
+      if(saveResponse.name === 'ValidationError') {
+        response.classList.status = 'Error updating ClassList'
+        response.classList.response = saveResponse
+        response.responseStatus = 'ERR'
+      } else {
+        response.classList.status = 'New class added to ClassList'
+        response.classList.response = saveResponse
+      }
+    }
+
+    return response
 
   }
 

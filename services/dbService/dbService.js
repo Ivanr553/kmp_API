@@ -4,18 +4,29 @@ const Phone = require('../../models/phoneList')
 
 const DB = {
 
-  findUser: async function(queryPhone) {
-    try{
-
-      // let found = await Phone.findPhone(req.body.newEntry.phone)
+  //Accetps phone number as string for the argument and returns the user with that phone number
+  findUserByPhone: async function(queryPhone) {
+    try {
       let found = await Phone.findOne({phone: queryPhone})
       return found
     } catch (err) {
       return (err)
     }
-
   },
 
+  //Accepts classID as argument and returns an array of users that have that class in their classIDs array
+  findUsersByClass: async function(queryClassID) {
+    try {
+      console.log(queryClassID)
+      let found = await Phone.find({classIDs: queryClassID})
+      // console.log(found)
+      return found
+    } catch (err) {
+      return err
+    }
+  },
+
+  //Takes the request object as an argument and will return the response from the database for the new user entry
   saveNewUser: async function(req) {
 
     //Assigning the body of the request received into a variable
@@ -28,15 +39,14 @@ const DB = {
     })
 
     try {
-
       let phoneResponse = await newPhone.save()
       return phoneResponse
     } catch (err) {
       return (err)
     }
-
   },
 
+  //Accepts the newClassID to be updated and the phone database entry as arguments and returns the response from the database
   updateUser: async function(newClassID, foundPhone) {
       try {
 
@@ -50,6 +60,7 @@ const DB = {
       }
   },
 
+  //Finds the primary (and only) ClassList and returns it
   findClassList: async function() {
     try {
       let classList = await ClassList.findById('59ea75feb5a3b9b78ca38a7b')
@@ -59,35 +70,35 @@ const DB = {
     }
   },
 
+  //Takes in the newClassID to be updated and the primary ClassList and returns the database response
   updateClassList: async function(newClassID, foundClassList) {
     try {
-
       //Adding newClassID to classList array
-      classList.classIds.push(newClassID)
+      foundClassList.classIDs.push(newClassID)
 
-      let saveResponse = await classList.save()
+      let saveResponse = await foundClassList.save()
       return saveResponse
     } catch (err) {
       return (err)
     }
   },
 
-  listContainsMatch: async function(newClassID, entry) {
+  //Accepts the newClassID and the database entry to be checked and will return
+  // a boolean indicating whether or not the newClassID exists in that database entry
+  listContainsMatch: function(newClassID, entry) {
 
     //Assigning list to variable
     let list = entry.classIDs
 
     //Iterating through classList to see if newClassID matches existing classes
     for(let i = 0; i < list.length; i++) {
-
-      //Returning true if match is found
       if(list[i] === newClassID) {
-        return false
-      }å
+        return true
+      }
     }
 
     //Returning false if no match found
-    return true
+    return false
   }
 
 }
