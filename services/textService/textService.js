@@ -18,12 +18,12 @@ const SMS = {
       PhoneNumber: '+1' + user.phone
     }
 
-    // try {
-    //   let snsResponse = await sns.publish(params).promise()
-    //   return snsResponse
-    // } catch (err) {
-    //   return err
-    // }
+    try {
+      let snsResponse = await sns.publish(params).promise()
+      return snsResponse
+    } catch (err) {
+      return err
+    }
   },
 
   //Sends a text message to notify a new user they have successfully been added to our system

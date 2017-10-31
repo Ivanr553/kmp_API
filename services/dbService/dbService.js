@@ -18,7 +18,6 @@ const DB = {
   findUsersByClass: async function(queryClassID) {
     try {
       let found = await Phone.find({classIDs: queryClassID})
-      // console.log(found)
       return found
     } catch (err) {
       return err
