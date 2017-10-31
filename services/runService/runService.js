@@ -27,9 +27,10 @@ const Script = {
   },
 
   //Accepts formatted classList (from findAvailableClasses) andreturns an array of phone numbers as strings
-  findAvailablePhones: async function(availableClassList) {
+  createAvailableUserList: async function(availableClassList) {
 
     let availablePhones = []
+    let availableUserList = []
 
     //Iterating through each entry in the availableClassList array
     for (let item of availableClassList) {
@@ -42,6 +43,11 @@ const Script = {
         for(let user of users) {
           if(availablePhones.indexOf(user.phone) < 0) {
             availablePhones.push(user.phone)
+            let availableUser = {
+              classID: classID,
+              phone: user.phone
+            }
+            availableUserList.push(availableUser)
           }
         }
       } catch(err) {
@@ -50,7 +56,7 @@ const Script = {
 
     }
 
-    return availablePhones
+    return availableUserList
 
   },
 
@@ -62,7 +68,7 @@ const Script = {
     let response = {
       phoneList: {},
       classList: {},
-      // sms: {},
+      sms: {},
       responseStatus: 'OK'
     }
 
@@ -106,9 +112,10 @@ const Script = {
         response.phoneList.response = saveResponse
       }
 
-      // let smsResponse = await SMS.sendNewUser(req.body.phone)
-      // response.sms.status = 'Sent'
-      // response.sms.response = smsResponse
+      //SMS response
+      let smsResponse = await SMS.sendNewUser(req.body.phone)
+      response.sms.status = 'Sent'
+      response.sms.response = smsResponse
     }
 
     //Handling ClassList database entry

@@ -17,7 +17,6 @@ const DB = {
   //Accepts classID as argument and returns an array of users that have that class in their classIDs array
   findUsersByClass: async function(queryClassID) {
     try {
-      console.log(queryClassID)
       let found = await Phone.find({classIDs: queryClassID})
       // console.log(found)
       return found

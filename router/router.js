@@ -8,7 +8,7 @@ const Script = require('../services/runService/runService')
 
 router.post('/entry', async (req, res) => {
 
-  let reponse = await Script.runNewEntry(req)
+  let response = await Script.runNewEntry(req)
 
   console.log(response)
   res.send(response)
@@ -18,12 +18,20 @@ router.post('/entry', async (req, res) => {
 
 router.get('/run', async (req, res) => {
 
-  // let availableClassList = await Script.findAvailableClasses()
-  // let availablePhones = await Script.findAvailablePhones(availableClassList)
-  // console.log(availablePhones)
+  //Constructing the userlist to send texts to
+  let availableClassList = await Script.findAvailableClasses()
+  let availableUserList = await Script.createAvailableUserList(availableClassList)
 
-  SMS.sendAvailableClass('8056241556', 'class')
-  // console.log(smsResponse)
+  //Looping through each user and sending a text for each of them
+  for(let user of availableUserList) {
+    try{
+      let smsResponse = await SMS.sendAvailableClass(user)
+      console.log(smsResponse)
+    } catch(err) {
+      console.log(err)
+    }
+
+  }
 
   res.send('running')
 
