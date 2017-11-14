@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const URL = require('../URLService/URLService')
 const DB = require('../dbService/dbService')
 const ClassList = require('../../models/classList')
+const SMS = require('../textService/textService')
 
 const Script = {
 
