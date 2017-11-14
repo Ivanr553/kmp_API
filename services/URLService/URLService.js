@@ -58,7 +58,6 @@ const URL = {
     return newClassList
   },
 
-// ============= RETURNING TRUE EACH TIME FOR DEVELOPMENT PURPOSES ===================
   //Returns true or false depending on waitlist availability
   checkWaitlist: (url) => {
 
@@ -81,7 +80,7 @@ const URL = {
       waitlistBoolean = waitlistSpots >= '0' ? true : false
     }
 
-    return true
+    return waitlistBoolean
 
   }
 

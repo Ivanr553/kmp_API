@@ -10,8 +10,7 @@ let PhoneSchema = new Schema(
       required: true
     },
     classIDs: {
-      type: [String],
-      required: true
+      type: [String]
     }
   },
   {

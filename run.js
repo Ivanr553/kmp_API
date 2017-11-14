@@ -1,5 +1,6 @@
-const fetch = require('fetch').fetchURL
+const XMLHttpRequest = require('XMLHttpRequest').XMLHttpRequest
 
-fetchUrl("https://kmp-api.herokuapp.com/run", function(error, meta, body){
-    console.log(body.toString());
-});
+var xmlHttp = new XMLHttpRequest()
+xmlHttp.open( "GET", "https://kmp-api.herokuapp.com/run", false )
+xmlHttp.send( null )
+console.log(xmlHttp.responseText)

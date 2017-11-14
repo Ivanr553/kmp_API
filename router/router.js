@@ -32,18 +32,24 @@ router.get('/run', async (req, res) => {
       console.log(err)
     }
   }
-  //
-  // for (let availableClass of availableClassList) {
-  //   try{
-  // //     // let result = await DB.deleteClassFromList(classList, availableClass.classID)
-  // //     // console.log(result)
-  // //
-  //     let foundUsers = await DB.findUsersByClass(availableClass.classID)
-  //     console.log(foundUsers)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+
+  //Iterate through each available class and remove it from the list of users that were sent a notification
+  for (let availableClass of availableClassList) {
+    try{
+      // let classListDeletionResponse = await DB.deleteClassFromList(classList, availableClass.classID)
+      // console.log(classListDeletionResponse)
+
+      let foundUsers = await DB.findUsersByClass(availableClass.classID)
+      console.log(foundUsers)
+
+      for (let foundUser of foundUsers) {
+          let userClassDeletionResponse = await DB.deleteClassFromUser(foundUser, availableClass.classID)
+          console.log(userClassDeletionResponse)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
 
   res.send('running')

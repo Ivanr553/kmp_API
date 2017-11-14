@@ -61,12 +61,12 @@ const DB = {
   deleteClassFromUser: async function(user, classID) {
     let result;
     try {
-      user.classIDs.forEach( (userClassID, index) => {
+      for(let userClassID of user.classIDs) {
         if(userClassID == classID) {
-          user.classIDs.splice(index, 1)
-          result = "Class spliced"
+          user.classIDs.splice(user.classIDs.indexOf(classID), 1)
+          result = await user.save()
         }
-      })
+      }
     } catch(err) {
       console.log(err)
     }
@@ -100,11 +100,14 @@ const DB = {
     let result;
     try {
       classList.classIDs.forEach( (foundClassID, index)=>{
-        if(foundClassID == classID) {
-          classList.classIDs.splice(index, 1)
-          result = classList.classIDs
-        }
+
       } )
+      for(let foundClassID of classList.classIDs) {
+        if(foundClassID == classID) {
+          classList.classIDs.splice(classList.classIds.indexOf(classID), 1)
+          result = await classList.save()
+        }
+      }
     } catch(err) {
       console.log(err)
     }
