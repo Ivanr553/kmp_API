@@ -77,7 +77,7 @@ const URL = {
 
     if(waitlistSpots) {
       //Returning true or false depending on the state of the waitlist
-      waitlistBoolean = waitlistSpots >= '0' ? true : false
+      waitlistBoolean = waitlistSpots > '0' ? true : false
     }
 
     return waitlistBoolean
