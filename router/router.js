@@ -19,19 +19,32 @@ router.post('/entry', async (req, res) => {
 router.get('/run', async (req, res) => {
 
   //Constructing the userlist to send texts to
+  let classList = await DB.findClassList()
   let availableClassList = await Script.findAvailableClasses()
   let availableUserList = await Script.createAvailableUserList(availableClassList)
 
-  //Looping through each user and sending a text for each of them
-  for(let user of availableUserList) {
-    try{
+  // Looping through each user and sending a text for each of them
+  for (let user of availableUserList) {
+    try {
       let smsResponse = await SMS.sendAvailableClass(user)
       console.log(smsResponse)
     } catch(err) {
       console.log(err)
     }
-
   }
+  //
+  // for (let availableClass of availableClassList) {
+  //   try{
+  // //     // let result = await DB.deleteClassFromList(classList, availableClass.classID)
+  // //     // console.log(result)
+  // //
+  //     let foundUsers = await DB.findUsersByClass(availableClass.classID)
+  //     console.log(foundUsers)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+
 
   res.send('running')
 

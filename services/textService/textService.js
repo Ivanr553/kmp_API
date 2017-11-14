@@ -13,7 +13,7 @@ const SMS = {
 
     //Constructing parameters for text message
     var params = {
-      Message: 'Your class is available!',
+      Message: 'One of your classes is available, go online and register!',
       MessageStructure: 'string',
       PhoneNumber: '+1' + user.phone
     }
@@ -24,6 +24,7 @@ const SMS = {
     } catch (err) {
       return err
     }
+
   },
 
   //Sends a text message to notify a new user they have successfully been added to our system

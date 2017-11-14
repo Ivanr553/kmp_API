@@ -14,10 +14,10 @@ const DB = {
     }
   },
 
-  //Accepts classID as argument and returns an array of users that have that class in their classIDs array
+  //Accepts a classID as argument and returns an array of users that have that class in their classIDs array
   findUsersByClass: async function(queryClassID) {
     try {
-      let found = await Phone.find({classIDs: queryClassID})
+      let found = await Phone.find({"classIDs": queryClassID})
       return found
     } catch (err) {
       return err
@@ -58,6 +58,21 @@ const DB = {
       }
   },
 
+  deleteClassFromUser: async function(user, classID) {
+    let result;
+    try {
+      user.classIDs.forEach( (userClassID, index) => {
+        if(userClassID == classID) {
+          user.classIDs.splice(index, 1)
+          result = "Class spliced"
+        }
+      })
+    } catch(err) {
+      console.log(err)
+    }
+    return result
+  },
+
   //Finds the primary (and only) ClassList and returns it
   findClassList: async function() {
     try {
@@ -79,6 +94,21 @@ const DB = {
     } catch (err) {
       return (err)
     }
+  },
+
+  deleteClassFromList: async function(classList, classID) {
+    let result;
+    try {
+      classList.classIDs.forEach( (foundClassID, index)=>{
+        if(foundClassID == classID) {
+          classList.classIDs.splice(index, 1)
+          result = classList.classIDs
+        }
+      } )
+    } catch(err) {
+      console.log(err)
+    }
+    return result
   },
 
   //Accepts the newClassID and the database entry to be checked and will return
