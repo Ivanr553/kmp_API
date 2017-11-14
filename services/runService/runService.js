@@ -74,10 +74,10 @@ const Script = {
     }
 
     //Assigning variables from request
-    let newClassID = req.body.newClassID
+    let newClassID = req.body.newEntry.newClassID
 
     //Finding database entries asynchronously
-    let foundPhone = await DB.findUserByPhone(req.body.phone)
+    let foundPhone = await DB.findUserByPhone(req.body.newEntry.phone)
     let ClassList = await DB.findClassList()
 
     //Handling phoneList database entry
@@ -114,7 +114,7 @@ const Script = {
       }
 
       //SMS response
-      let smsResponse = await SMS.sendNewUser(req.body.phone)
+      let smsResponse = await SMS.sendNewUser(req.body.newEntry.phone)
       response.sms.status = 'Sent'
       response.sms.response = smsResponse
     }
