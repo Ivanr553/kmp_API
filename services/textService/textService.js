@@ -13,7 +13,7 @@ const SMS = {
 
     //Constructing parameters for text message
     var params = {
-      Message: 'One of your classes is available, go online and register!',
+      Message: 'One of your classes is available, go online and register! If someone managed to register before you, no worries. Just re-sign up again on our website to be notified about that class again!',
       MessageStructure: 'string',
       PhoneNumber: '+1' + user.phone
     }
